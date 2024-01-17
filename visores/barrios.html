@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no" />
+
+<head>
+	<link rel="stylesheet"	href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/ion-rangeslider@2.2.0/css/ion.rangeSlider.css" />
+	<link rel="stylesheet" href="https://unpkg.com/ion-rangeslider@2.2.0/css/ion.rangeSlider.skinNice.css" />	
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+	<link rel="stylesheet" href="css/L.Control.HtmlLegend.css" />
+	<link rel="stylesheet" href="css/leaflet-search.css" />
+	
+	
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script src="js/leaflet-panel-layers.src.js"></script>
+<script src="js/leaflet-panel-layers.js"></script>
+<script src="js/L.Control.Appearance.js"></script>
+<script src="js/jquery-3.5.1.js"></script>
+<script src="js/L.Control.HtmlLegend.js"></script>
+<script src="js/leaflet-search.js"></script>
+
+<!-- en la Carpeta DATA estan los js como capas-->
+	<script type="text/javascript" src="data/barrio3.js"></script>
+	
+<style>
+	#map {
+	width: 100%;
+	height: 600px;
+	box-shadow: 5px 5px 5px #888;
+	}
+	.info {
+	padding: 6px 8px;
+	font: 14px/16px Arial, Helvetica, sans-serif;
+	background: white;
+	background: rgba(255,255,255,0.8);
+	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	border-radius: 5px;
+	}
+	.info h2 {
+	margin: 0 0 5px;
+	color: #777;
+	width: 20vw;
+	height: auto;
+	}
+	.leaflet-tooltip.my-labels {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  }
+	
+</style>
+
+</head>
+<body>
+	<div id="map"></div>
+<script>
+		var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
+			maxZoom: 18
+	});
+
+	var google = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { opacity: 1.0,
+            attribution: '&copy;<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Google</a>',
+            maxZoom: 18});
+
+		
+		var barrio = L.geoJson(barrio,
+{
+  style: style,
+  onEachFeature: barrios_pop,
+  attribution: '<a href="https://idemsa.municipalidadsalta.gob.ar/">IDEMSa</a>' 
+} );
+
+function getColor (ID) {
+	return ID > 350 ? '#800026' :
+			ID > 300 ? '#bd0026' : 
+			ID > 250 ? '#e31a1c' :
+			ID > 230 ? '#fc4e2a' : 
+			ID > 150 ? '#feb24c' :
+			ID > 100 ? '#6a51a3' :
+			ID> 75 ? '#807dba' :
+			ID > 10 ?'#9e9ac8':
+				'#d9f0a3' ; };
+
+// Añadir Style: incorporar en la funcion la paleta de colores getColor, y pedri que fitlre la columa pop_est con esa paleta//
+function style(feature) { 
+		return { 
+		fillColor: getColor(feature.properties.ID), 
+		weight: 1, 
+		opacity: 1, 
+		color: 'white', 
+		dashArray: '0', 
+		fillOpacity: 0.9,
+  }   
+  }; 
+
+
+// funcion popous Con cuadro de texto - faltan definir los estilos1 2 3
+	function onEachFeature(feature, layer) {
+          if (feature.properties && feature.properties.popupContent) {
+              layer.bindPopup(feature.properties.popupContent);
+          }
+        }		
+		function barrios_pop(feature, layer) {
+			var popupContent = 
+			"<div id='Estilo1'><h3><i>Descripción</i></h3></div>"+
+                               "<hr class='hrx' style='color: #ef7d26;' align='left' noshade='noshade' size='2' width='100%' />"+
+                                   "<div id='Estilo3a'>"+
+                                      "<b> Nombre:  </b>" +  feature.properties.NOM_LARGO + "<br>"+
+                                      "<b> Tipo: </b>" + feature.properties.TIPO + "<br>"+
+									//   "<b>ID: </b>" + feature.properties.ID + "<br>"+
+								   "</div>";
+			
+			layer.bindPopup(popupContent);
+        }
+
+		function eventOpenPopup(e) {
+	       var layer = e.layer;
+	       layer.closePopup();
+	       layer.openPopup();
+        }
+
+// Grupos de capas
+var baseLayers = [
+	{
+		name: "Open Street Map",
+		layer: osm,
+			},
+	{
+		name: "Google Satelite",
+		layer: google
+	}];
+					
+			var overlayMaps = [{
+		group: "BARRIOS DE LA CIUDAD",
+		layers: [	
+						{
+				active: false,
+				name: "BARRIOS",
+				layer: barrio,
+				transparent: true,
+				opacity: 0.5,
+						}
+					]
+				}
+			];
+				 					 
+			//mapa//
+var map = L.map('map', {
+		center: [-24.79303,-65.41527],
+		zoom:12,
+		zoomControl: false,
+		layers: [google,  barrio]
+		
+	});
+
+// colocar el logo
+// L.Control.Watermark = L.Control.extend({
+// 	onAdd: function(map){
+// 		var img = L.DomUtil.create ('img');
+// 		img.src = './css/images/cropped-LOGO-Salta-web.png'
+// 		img.style.width = '20vw',
+// 		img.style.height = 'auto';
+// 		return img;	
+// 	},
+// 	onRemove: function(map){},
+// });
+// L.control.watermark = function(opts){
+// 	return new L.Control.Watermark(opts);
+// }
+// L.control.watermark(position ='topleft').addTo(map);
+
+//panel de control agregado//
+	var panelLayers = new L.Control.PanelLayers(baseLayers, overlayMaps, 
+	{compact: true,
+	//collapsed: true,
+	collapsibleGroups: true,
+	position: 'topleft',
+});
+map.addControl(panelLayers);
+
+// Insertando un título en el mapa
+	var title = L.control(
+	);
+	title.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'info');
+		div.innerHTML +=
+		'<h2>Buscador de Barrio</h2>';
+		return div;
+	};
+	title.addTo(map);
+//buscador de barrios
+	var searchControl = new L.Control.Search({
+		layer: barrio, 
+		propertyName: 'BARRIO',
+		circleLocation: false,
+		position: 'topright',
+		collapsed: false		
+	});
+	searchControl.on('search_locationfound', function(e) {
+		e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+	})
+	.on('search_collapsed', function(e) {
+		barrio.eachLayer(function(layer) { //restauramos el color del elemento
+			barrio.resetStyle(layer);
+		});	
+	});
+	map.addControl(searchControl);
+
+	//Añadir lat/log a un punto en el mapa
+	function onMapClick(e) { alert("Haz clic en el Mapa" ); }
+map.on('click', onMapClick);
+
+	//se le agregan los controles//
+L.control.zoom ({position: 'topleft'}). addTo (map);
+L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
+	</script>
+
+</body>
+</html>

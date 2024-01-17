@@ -1,0 +1,83 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mapa del Clima</title>
+    <!-- arriba -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="leaflet/style.css">
+    <!-- mapa -->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="leaflet/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="leaflet/leaflet-openweathermap.css" />
+    <link rel="stylesheet" href="leaflet/L.Control.HtmlLegend.css" />
+
+    <!-- arriba -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="leaflet/L.Control.HtmlLegend.js"></script>
+    <script src='//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js'></script>
+   
+</head>
+<body>
+    <hr>
+    <br>
+    <p id='headline'><b>Web con datos del Clima actual</b></p>
+    <br>
+
+    <div class="container-fluid  ">
+
+        <div id="caja1" class="ts-box  ts-description-list__line mr-2 pb-2 ">
+            <h2 id="ubicacion"></h2>
+            <dt>Hoy </dt>
+            <dd id="time"></dd>
+            <dt>Temperatura Actual </dt>
+            <dd id="temp-valor"></dd>
+            <dt>Temperatura Maxima</dt>
+            <dd id="temp_max"></dd>
+            <dt>Temperatura Minima</dt>
+            <dd id="temp_min"></dd>
+        </div>
+
+        <div id="caja2" class="ts-box ts-description-list__line mr-2 pb-2 ">
+            <!-- <h3>Ciudad de </h3> -->
+            <h3 id="temp-descripcion"></h3>
+            <img id="icono-animado" src="" alt="" height="80" width="80">
+        </div>
+
+        <div id="caja3" class="ts-box ts-description-list__line mr-2 pb-2 ">
+            <h3> <b> Viento </b> </h3>
+            <dt></dt>
+            <dt>Velocidad</dt>
+            <dd id="viento-velocidad"></dd>
+            <dt>Dirección </dt>
+            <dd id="viento-direccion"></dd>
+            <dt>Humedad relativa </dt>
+            <dd id="humedad"></dd>
+        </div>
+    </div>
+
+    <br>
+    <p id='headline'><b>Mapa con capas Climáticas</b></p>
+    <br>
+    <div class="container-fluid ">
+        <div class="row">
+        </div>
+        <!-- mapbox -->
+        <div id="map" class="map"></div>
+        <br>
+    </div>
+
+    <div >
+        <h4> Los datos son tomados de <a href="https://openweathermap.org/">https://openweathermap.org</a> mediante API
+    </div>
+  
+    <script src="leaflet/map.js"></script>
+    <script src="leaflet/app.js"></script>
+</body>
+
+</html>

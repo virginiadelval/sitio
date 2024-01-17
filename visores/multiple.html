@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mapas multiples</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+    <!-- leyenda-->
+    <link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+    <!-- <link rel="stylesheet" href="src/L.Control.HtmlLegend.css" />
+    <script src="src/L.Control.HtmlLegend.js"></script> -->
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js" crossorigin=""></script>
+    <!-- full screen-->
+    <script src="js/Control.FullScreen.js"></script>
+
+
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 95%;
+            margin: 0;
+        }
+
+        #map,
+        #container {
+            width: 49.5%;
+            height: 100%;
+            box-shadow: 5px 5px 5px #888;
+        }
+
+        #map {
+            float: left;
+        }
+
+        #container {
+            float: right;
+        }
+
+        #container .map {
+            width: 100%;
+            height: 40%;
+            background-color: #888;
+        }
+
+
+        .fullscreen-icon {
+            background-image: url(css/images/icon-fullscreen.png);
+        }
+
+
+        .titulo {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-top: 2px solid #6e6a6a;
+        }
+
+        hr {
+            border-top: 2px solid #a7a5a5;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="titulo">
+        <h3 style="font-size:24px; font-weight:bold; text-align:center;">Análisis comparativo de Mapas de Suelos de
+            Salta y Jujuy</h3>
+
+        <div id="titulo" style='color: #888;' font="Arial, Helvetica, sans-serif" ;>
+            <h5><i> Los datos son tomados mediante servicio WMS de la <a href="http://geoportal.idesa.gob.ar/">
+                    Infraestructura de Datos Espaciales de la Provincia de Salta </a> </h5></i>
+        </div>
+        <hr style="border-top:2px solid #868080;">
+    </div>
+    <div id="map" style="text-align:center; margin-top:20px; margin-bottom:20px;">
+
+        <b>Título: </b> <i> Suelos del NOA (Salta y Jujuy) Grupo de la Tierra </i> <br>
+        <h6> <b> Resumen:</b> <i>Adecuación a un Sistema de Información Geográfica del estudio "Los Suelos del NOA
+                (Salta y Jujuy), Nadir A. - Chafatinos T., 1990" - Convenio INTA UNSA. Unidades Cartograficas -
+                Asociaciones de Suelos - Escala 1:250000.</i></h6>
+        <hr>
+
+    </div>
+    <div id="container">
+        <div id="titulo">
+            <center>
+
+                <b>Título: </b> Suelos del NOA (Salta y Jujuy) - Clasificación Tax. USDA Gran Grupo </i> <br>
+
+                <hr>
+            </center>
+        </div>
+        <div id="mapA" class="map">
+        </div>
+        <div id="titulo">
+            <center>
+                <hr> <br>
+                <b>Título: </b> Suelos del NOA (Salta y Jujuy) - Clasificación Taxonómica FAO </i> <br>
+                <hr>
+            </center>
+        </div>
+        <div id="mapB" class="map">
+        </div>
+    </div>
+
+    </div>
+</body>
+<script src="js/L.Map.Sync.js"></script>
+
+<script type="text/javascript">
+
+    var center = [-23.79303, -65.41527];
+
+    //VARIABLES
+
+
+    var GoogleSatelite = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        opacity: 0.8,
+        attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>' + 'contributors',
+        maxZoom: 18
+    });
+
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+            + 'contributors',
+        maxZoom: 18,
+        opacity: 0.8,
+    });
+    var layer1 = L.tileLayer.wms("http://geoportal.idesa.gob.ar/geoserver/wms?", {
+        active: true,
+        layers: 'geonode:grupotierra_suelos_saltajujuy',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.8,
+
+
+    });
+
+    var layer2 = L.tileLayer.wms("http://geoportal.idesa.gob.ar/geoserver/wms?", {
+        active: true,
+        layers: 'geonode:grangrupo',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.8
+    });
+
+
+    var layer3 = L.tileLayer.wms("http://geoportal.idesa.gob.ar/geoserver/wms?", {
+        active: true,
+        layers: 'geonode:asoc_fao_',
+        format: 'image/png',
+        transparent: true,
+        opacity: 0.8
+    });
+    var map = L.map('map', {
+        layers: [layer1],
+        center: center,
+        zoom: 7,
+        zoomControl: false
+
+    });
+
+
+    var mapA = L.map('mapA', {
+        layers: [osm, layer2],
+        center: center,
+        zoom: 6,
+        zoomControl: false,
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+            title: "Mostrar en pantalla completa",
+            titleCancel: "Cancelar el modo pantalla completa",
+            position: 'topright',
+        },
+
+    });
+    var mapB = L.map('mapB', {
+        layers: [GoogleSatelite, layer3],
+        center: center,
+        zoom: 6,
+        zoomControl: false,
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+            title: "Mostrar en pantalla completa",
+            titleCancel: "Cancelar el modo pantalla completa",
+            position: 'topright',
+        },
+    });
+
+    map.sync(mapA);
+    map.sync(mapB);
+
+    // If you want interaction with mapA|B to be synchronized on map,
+    // add other links as well.
+    mapA.sync(map);
+        // mapA.sync(mapB);
+
+        // mapB.sync(map);
+        // mapB.sync(mapA);
+
+</script>
+
+
+</html>

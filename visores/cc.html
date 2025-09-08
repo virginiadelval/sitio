@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<head>
+	<title>Cambio Climatico</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+	<!-- Template Main CSS File -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/font.css" rel="stylesheet">
+
+	<!-- <link rel="stylesheet" href="https://unpkg.com/ion-rangeslider@2.2.0/css/ion.rangeSlider.skinNice.css" /> -->
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+	<link rel="stylesheet" href="css/leaflet-panel-layers.min.css" />
+	<link rel="stylesheet" href="css/leaflet-panel-layers.src.css" />
+	<link rel="stylesheet" href="css/L.Control.HtmlLegend.css" />
+	<link rel="stylesheet" href="css/leaflet-search.css" />
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+	<!-- <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" /> -->
+	<link rel="stylesheet" href="css/leaflet.awesome-markers.css" />
+	<!-- leyenda transparent -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
+
+
+	<!-- rangeSlider - stefano cudinii y open -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" crossorigin=""></script>
+	<script src="https://unpkg.com/leaflet-panel-layers" crossorigin=""></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+	<script src="https://unpkg.com/leaflet-panel-layers"></script>
+	<script src="https://unpkg.com/leaflet.wms/dist/leaflet.wms.js"></script>
+
+
+	<!-- complemento awesomeMarker-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+
+	<script src="js/leaflet-panel-layers.src.js"></script>
+	<script src="js/leaflet-panel-layers.min.js"></script>
+	<script src="js/leaflet-panel-layers.js"></script>
+	<script src="js/L.Control.Appearance.js"></script>
+	<script src="js/jquery-3.5.1.js"></script>
+	<script src="js/L.Control.HtmlLegend.js"></script>
+	<script src="js/leaflet-search.js"></script>
+	<script src="js/leaflet.awesome-markers.js"></script>
+	<script src="js/leaflet.awesome-markers.min.js"></script>
+
+
+	<!-- plugin wms-->
+	<script src="js/leaflet.wms.js"></script>
+
+	<!-- en la Carpeta DATA estan los js como capas-->
+	<script type="text/javascript" src="data/provicias.js"></script>
+
+
+	<script type="text/javascript" src="data/ppm.js"></script>
+	<script type="text/javascript" src="data/temMedia.js"></script>
+	<script type="text/javascript" src="data/stylepopus_pp.js"></script>
+	<script type="text/javascript" src="data/stylepopus_tem.js"></script>
+	<script type="text/javascript" src="js/ppmtemp.js"></script>
+	<script type="text/javascript" src="js/mapa.js"></script>
+	<script type="text/javascript" src="js/panelLayers.js"></script>
+
+	<!-- <script type="text/javascript" src="js/wmsconae.js"></script> -->
+	<style>
+		html,
+		body {
+			height: 100%;
+			box-shadow: 5px 5px 5px #888;
+		}
+
+		#map {
+			height: 95%;
+			box-shadow: 5px 5px 5px #888;
+		}
+
+
+		.legend {
+			padding: 10% 0;
+			font: 12px/14px Arial;
+			background: rgba(255, 255, 255, 0.918);
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			border-radius: 1px;
+			width: '30vw';
+			height: 'auto';
+		}
+
+		.info {
+			padding: 6px 8px;
+			font: 14px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255, 255, 255, 0.8);
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			width: 35vw;
+			height: auto;
+		}
+
+		.info h2 {
+			margin: 0 0 5px;
+			color: #7a7a7a;
+			width: 20vw;
+			height: auto;
+		}
+
+		.info h3 {
+
+			margin: 0 0 5px;
+			color: #414141;
+			width: 20vw;
+			height: auto;
+
+		}
+
+		.leaflet-tooltip.my-labels {
+			background-color: transparent;
+			border: transparent;
+			box-shadow: none;
+		}
+
+		/* Estilos CSS para la leyenda */
+		.info.legend {
+			background: white;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 12px;
+		}
+
+		/* Estilos para los círculos de colores en la leyenda */
+		.info.legend i {
+			width: 12px;
+			height: 12px;
+			display: inline-block;
+			border-radius: 50%;
+			margin-right: 5px;
+		}
+
+		/* remove label background elements */
+		.leaflet-tooltip.my-labels {
+			background-color: transparent;
+			border: transparent;
+			box-shadow: none;
+			font-weight: bold;
+			font-size: 30px;
+		}
+
+		/*  Slider*/
+		.legend {
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			background-color: white;
+			padding: 10px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.layer-slider {
+			margin-bottom: 10px;
+		}
+
+
+		.panel-layer-item {
+			margin-bottom: 10px;
+		}
+	/* Encabezado */
+		.header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 15px 30px;
+			border-bottom: 1px solid #e0e0e0;
+			background-color: #ffffff;
+			position: relative;
+			z-index: 10;
+			/* Asegura que el encabezado esté sobre el mapa */
+		}
+
+		/* Logo */
+		.logo {
+			display: flex;
+			align-items: center;
+			font-size: 1.5rem;
+			font-weight: bold;
+			color: black;
+			text-decoration: none;
+		}
+
+		.logo img {
+			width: 24px;
+			height: 24px;
+			margin-right: 10px;
+		}
+
+		.logo span {
+			color: #1e73e8;
+			/* Color del icono */
+		}
+
+		/* Navegación */
+		.nav-links {
+			display: flex;
+			gap: 20px;
+
+		}
+
+		.nav-links a {
+			color: black;
+			text-decoration: none;
+			font-weight: 500;
+			font-size: 0.9rem;
+			position: relative;
+		}
+
+		.nav-links a:hover {
+			color: #1e73e8;
+		}
+
+		/* Submenú para NOA */
+		.dropdown {
+			position: relative;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: #ffffff;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			z-index: 20;
+			/* Asegura que el submenú esté sobre el mapa */
+			padding: 10px 0;
+			min-width: 160px;
+		}
+
+		.dropdown-content a {
+			color: black;
+			padding: 10px 20px;
+			text-decoration: none;
+			display: block;
+		}
+
+		.dropdown-content a:hover {
+			background-color: #f1f1f1;
+			color: #1e73e8;
+		}
+
+		/* Muestra el submenú al pasar el cursor */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+	</style>
+
+</head>
+
+<body>
+	<!-- Encabezado -->
+	<header class="header">
+		<!-- Logo -->
+		<a href="https://virginiadelval.github.io/sitio/" class="logo">
+			
+			<span>Inicio</span>
+		</a>
+		<!-- Navegación -->
+		<nav class="nav-links">
+			<!-- <a href="#">Home</a> -->
+			<a href="https://virginiadelval.github.io/sitio/visores/mapa_multicriterio.html">Sincronizados</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/sidebySide.html">Transparencia</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/cc.html">Datos con Gráficos</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/barrios.html">Busqueda</a>
+			
+		</nav>
+
+	</header>
+
+	<div id="map"></div>
+	<script>
+
+		//mapa//
+		var map = L.map('map', {
+			center: [-41.39, -65.34],
+			zoom: 4,
+			zoomControl: false,
+			layers: [argenmap, PROV]
+		});
+
+		title.addTo(map);
+
+		/// Paneles layer (js/panelLayer.js) en orden de aparicion
+		map.addControl(panelLayers);
+		map.addControl(panelLayers1);
+		map.addControl(panelLayers6);
+		// map.addControl(panelLayers2);
+		// map.addControl(panelLayers3);
+		// map.addControl(panelLayers4);
+		// map.addControl(panelLayers7);
+		//map.addControl(panelLayersClimatico);
+
+
+
+		// Llamada a la función para crear la leyenda
+
+
+		// createLegendApiDiario();
+		// createLegendApiPercentil();
+
+		createLegendPPM();
+		createLegendTEM();
+
+		// map.addControl(htmlLegend1and6);
+
+		
+
+		//se le agregan los controles//
+		//L.control.zoom({ position: 'topright' }).addTo(map);
+
+		// colocar el div
+		L.Control.Watermark = L.Control.extend({
+			onAdd: function (map) {
+				var img = L.DomUtil.create('img');
+				img.src = 'images/style_ppm.JPG';
+				img.style.width = '20vw';
+				img.style.height = 'auto'
+				return img;
+			},
+			onRemove: function (map) { },
+		});
+		L.control.watermark = function (opts) 
+		{ return new L.Control.Watermark(opts); }
+		L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+		// colocar el div
+		L.Control.Watermark = L.Control.extend({
+			onAdd: function (map) {
+				var img = L.DomUtil.create('img');
+				img.src = 'images/style_temp.JPG';
+				img.style.width = '20vw';
+				img.style.height = 'auto'
+				return img;
+			},
+			onRemove: function (map) { },
+		});
+		L.control.watermark = function (opts) {
+			return new L.Control.Watermark(opts);
+		}
+		L.control.watermark({
+			position: 'bottomright'
+		}).addTo(map);
+
+		
+		
+		
+		L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
+	</script>
+
+
+</body>
+
+</html>

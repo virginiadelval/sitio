@@ -1,0 +1,290 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mapas multiples</title>
+    <!-- Template Main CSS File -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/font.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js" crossorigin=""></script>
+    <script src="js/Control.FullScreen.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js" crossorigin=""></script>
+    <script src="js/Control.FullScreen.js"></script>
+
+    <!-- otros -->
+
+	<script src="js/leaflet-panel-layers.src.js"></script>
+	<script src="js/leaflet-panel-layers.min.js"></script>
+	<script src="js/leaflet-panel-layers.js"></script>
+	<script src="js/L.Control.Appearance.js"></script>
+	<script src="js/jquery-3.5.1.js"></script>
+	<script src="js/L.Control.HtmlLegend.js"></script>
+	<script src="js/leaflet-search.js"></script>
+	<script src="js/leaflet.awesome-markers.js"></script>
+	<script src="js/leaflet.awesome-markers.min.js"></script>
+	<!-- full screen-->
+	<script src="js/Control.FullScreen.js"></script>
+	<!-- geolocalizacion-->
+	<link rel="stylesheet" href="css/L.Control.Locate.css" />
+	<script src="js/L.Control.Locate.js"></script>
+	<script src="js/L.Control.Locate.min.js"></script>
+	<!-- plugin wms-->
+	<script src="js/leaflet.wms.js"></script>
+	<!-- imprimir -->
+	<script src="js/bundle.js"></script>
+
+
+
+
+    <script type="text/javascript" src="data/prov_contorno.js"></script>
+    <script type="text/javascript" src="data/poblacion22.js"></script>
+    <script type="text/javascript" src="data/loccensal22.js"></script>
+    <script type="text/javascript" src="data/parajesign.js"></script>
+
+    <script type="text/javascript" src="data/nbi_dpto.js"></script>
+    <script type="text/javascript" src="data/pobindigena2021.js"></script>
+
+    <script type="text/javascript" src="data/regiones_hidrogeoloicas.js"></script>
+    <script type="text/javascript" src="data/cuencas_sistemas.js"></script>
+    <script type="text/javascript" src="data/agua_red_j.js"></script>
+    <script type="text/javascript" src="data/sitios_j.js"></script>
+    <script type="text/javascript" src="data/esmn_j.js"></script>
+    <script type="text/javascript" src="data/suelos_j.js"></script>
+    <script type="text/javascript" src="data/ecoregion_j.js"></script>
+    <script type="text/javascript" src="data/areaprotegidas_s.js"></script>
+    <script type="text/javascript" src="js/mapa_chaco.js"></script>
+    <script type="text/javascript" src="js/panelLayersChaco.js"></script>
+
+
+
+    <script src="js/L.Map.Sync.js"></script>
+
+
+    <style type="text/css">
+    html,
+    body {
+        width: 100%;
+        height: 95%;
+        margin: 0;
+    }
+
+    /* El contenedor de los mapas ahora divide el espacio en dos columnas */
+    #map,
+    #container {
+        width: 49.5%; /* Cada mapa ocupa casi la mitad del ancho */
+        height: 100%;
+        box-shadow: 5px 5px 5px #888;
+        float: left; /* Usamos float para ponerlos uno al lado del otro */
+    }
+    
+    #map {
+        float: left; /* El primer mapa flota a la izquierda */
+    }
+
+    #container {
+        float: right; /* El segundo mapa flota a la derecha */
+    }
+
+    /* Se elimina el estilo de los sub-contenedores, ya que el contenedor principal (#container) ahora contiene un solo mapa */
+    #container .map {
+        width: 100%;
+        height: 100%; /* El mapa ocupa toda la altura del contenedor */
+        background-color: #888;
+    }
+
+
+    .fullscreen-icon {
+        background-image: url(css/images/icon-fullscreen.png);
+    }
+
+
+    .titulo {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        border-top: 2px solid #6e6a6a;
+    }
+
+    hr {
+        border-top: 2px solid #a7a5a5;
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    h5 {
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+
+    }
+    /* Encabezado */
+		.header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 15px 30px;
+			border-bottom: 1px solid #e0e0e0;
+			background-color: #ffffff;
+			position: relative;
+			z-index: 10;
+			/* Asegura que el encabezado esté sobre el mapa */
+		}
+
+		/* Logo */
+		.logo {
+			display: flex;
+			align-items: center;
+			font-size: 1.5rem;
+			font-weight: bold;
+			color: black;
+			text-decoration: none;
+		}
+
+		.logo img {
+			width: 24px;
+			height: 24px;
+			margin-right: 10px;
+		}
+
+		.logo span {
+			color: #1e73e8;
+			/* Color del icono */
+		}
+
+		/* Navegación */
+		.nav-links {
+			display: flex;
+			gap: 20px;
+
+		}
+
+		.nav-links a {
+			color: black;
+			text-decoration: none;
+			font-weight: 500;
+			font-size: 0.9rem;
+			position: relative;
+		}
+
+		.nav-links a:hover {
+			color: #1e73e8;
+		}
+
+		/* Submenú para NOA */
+		.dropdown {
+			position: relative;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: #ffffff;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			z-index: 20;
+			/* Asegura que el submenú esté sobre el mapa */
+			padding: 10px 0;
+			min-width: 160px;
+		}
+
+		.dropdown-content a {
+			color: black;
+			padding: 10px 20px;
+			text-decoration: none;
+			display: block;
+		}
+
+		.dropdown-content a:hover {
+			background-color: #f1f1f1;
+			color: #1e73e8;
+		}
+
+		/* Muestra el submenú al pasar el cursor */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+
+    </style>
+</head>
+
+<body>
+	<!-- Encabezado -->
+	<header class="header">
+		<!-- Logo -->
+		<a href="https://virginiadelval.github.io/sitio/" class="logo">
+			
+			<span>Inicio</span>
+		</a>
+		<!-- Navegación -->
+		<nav class="nav-links">
+			<!-- <a href="#">Home</a> -->
+			<a href="https://virginiadelval.github.io/sitio/visores/mapa_multicriterio.html">Sincronizados</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/sidebySide.html">Transparencia</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/cc.html">Datos con Gráficos</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/barrios.html">Busqueda</a>
+			
+		</nav>
+
+	</header>
+
+    <div id="titulo">
+        <h3 style="font-size:24px; font-weight:bold; text-align:center;">Análisis comparativo de Variables ambientales y sociales</h3>
+        <div id="titulo" style='color: #888;' font="Arial, Helvetica, sans-serif" ;>
+            <h5><i> Los datos son tomados de distinta fuentes </h5></i>
+        </div>
+        <hr style="border-top:2px solid #868080;">
+    </div>
+    
+    <div id="map" style="text-align:center; margin-top:20px; margin-bottom:20px;">
+        <b>Ambientales<br>
+    
+        <hr>
+    </div>
+    
+    <div id="container">
+        <div id="titulo">
+            <center>
+                
+            </center>
+        </div>
+        <div id="mapA" class="map">
+        </div>
+    </div>
+</body>
+
+
+<script src="js/mapaChaco1.js"></script>
+<script src="js/mapaChaco2.js"></script>
+
+<script type="text/javascript">
+
+
+    // Sincronizar todos los mapas entre sí.
+    
+        mapaChaco1.sync(mapaChaco2);
+        // mapaChaco1.sync(mapaChaco3);
+        mapaChaco2.sync(mapaChaco1);
+        // mapaChaco2.sync(mapaChaco3);
+        // mapaChaco3.sync(mapaChaco1);
+        // mapaChaco3.sync(mapaChaco2);
+
+ 
+
+  
+</script>
+
+</html>

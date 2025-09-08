@@ -6,30 +6,141 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sideBySide</title>
-
+  <!-- Template Main CSS File -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/font.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
         integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
         crossorigin=""></script>
-    <script src="js/leaflet-side-by-side.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
 
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
+
+    <script src="js/leaflet-side-by-side.js"></script>
+    <script type="text/javascript" src="data/provicias.js"></script>
+    <style>
+      html,
+		body {
+			height: 100%;
+			box-shadow: 5px 5px 5px #888;
+		}
+
+		#map {
+			height: 95%;
+			box-shadow: 5px 5px 5px #888;
+		}
+        /* Encabezado */
+		.header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 15px 30px;
+			border-bottom: 1px solid #e0e0e0;
+			background-color: #ffffff;
+			position: relative;
+			z-index: 10;
+            
+			
+		}
+
+		/* Logo */
+		.logo {
+			display: flex;
+			align-items: center;
+			font-size: 1.5rem;
+			font-weight: bold;
+			color: black;
+			text-decoration: none;
+		}
+
+		.logo img {
+			width: 24px;
+			height: 24px;
+			margin-right: 10px;
+		}
+
+		.logo span {
+			color: #1e73e8;
+			/* Color del icono */
+		}
+
+		/* Navegación */
+		.nav-links {
+			display: flex;
+			gap: 20px;
+
+		}
+
+		.nav-links a {
+			color: black;
+			text-decoration: none;
+			font-weight: 500;
+			font-size: 0.9rem;
+			position: relative;
+		}
+
+		.nav-links a:hover {
+			color: #1e73e8;
+		}
+
+		/* Submenú para NOA */
+		.dropdown {
+			position: relative;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: #ffffff;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			z-index: 20;
+			/* Asegura que el submenú esté sobre el mapa */
+			padding: 10px 0;
+			min-width: 160px;
+		}
+
+		.dropdown-content a {
+			color: black;
+			padding: 10px 20px;
+			text-decoration: none;
+			display: block;
+		}
+
+		.dropdown-content a:hover {
+			background-color: #f1f1f1;
+			color: #1e73e8;
+		}
+
+		/* Muestra el submenú al pasar el cursor */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
     </style>
 </head>
 
 <body>
+    <!-- Encabezado -->
+	<header class="header">
+		<!-- Logo -->
+		<a href="https://virginiadelval.github.io/sitio/" class="logo">
+			
+			<span>Inicio</span>
+		</a>
+		<!-- Navegación -->
+		<nav class="nav-links">
+			<!-- <a href="#">Home</a> -->
+			<a href="https://virginiadelval.github.io/sitio/visores/mapa_multicriterio.html">Sincronizados</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/sidebySide.html">Transparencia</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/cc.html">Datos con Gráficos</a>
+			<a href="https://virginiadelval.github.io/sitio/visores/barrios.html">Busqueda</a>
+			
+		</nav>
+
+	</header>
     <div id='map'></div>
     <script>
 
@@ -38,14 +149,19 @@
         });
         var GoogleSatelite = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
             opacity: 0.8,
-            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>' + 'contributors',
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Google</a>',
             maxZoom: 18
         });
+        var argenmap = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/mapabase_gris@EPSG%3A3857@png/{z}/{x}/{-y}.png', {
+	opacity: 1.0,
+	attribution: '<a href="https://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2"  target="_blank"> ArgenMap </a>',
+	maxZoom: 18,
+})
 
         //VARIABLES DEMOGRAFICAS//
-        var layer1 = L.tileLayer.wms("https://geoportal.salta.gob.ar/geoserver/wms?", {
+        var layer1 = L.tileLayer.wms("https://geo.ambiente.gob.ar/geoserver/wms?", {
             active: true,
-            layers: 'geonode:grupotierra_suelos_saltajujuy',
+            layers: 'suelo:suelos_1_500_arg_inta_anida_4326',
             format: 'image/png',
             transparent: true,
             opacity: 0.6,
@@ -53,9 +169,9 @@
         });
 
 
-        var layer2 = L.tileLayer.wms("http://geoportal.idesa.gob.ar/geoserver/wms?", {
+        var layer2 = L.tileLayer.wms("https://geo.ambiente.gob.ar/geoserver/wms?", {
             active: true,
-            layers: 'geonode:grangrupo',
+            layers: 'suelo:indice_aridez_',
             format: 'image/png',
             transparent: true,
             opacity: 0.6
@@ -64,21 +180,35 @@
         var baseMaps = {
             "OpenStreetMap": osmLayer,
             "Google Satelital": GoogleSatelite,
+            "ArgenMap":argenmap,
 
         };
 
         var overlayMaps = {
-            "Tipo de Suelos Calsificación Grupos de la Tierra": layer1,
-            "Clasificación Tax. USDA Gran Grupo": layer2,
+            "Indice de Aridez ": layer1,
+            "Clasificación de Suelos (1:500.000) INTA": layer2,
 
         };
+        var PROV = L.geoJSON(provincias, {
+	style: function (feature) {
+		return {
+			fillColor: "gray",
+			weight: 1,
+			opacity: 1,
+			color: '#000',
+			dashArray: '0.2',
+			fillOpacity: 0.1
+		};
+	},
+	
+})
 
         // se crea el mapa//
         var map = L.map('map', {
             center: [-23.79303, -65.21527],
-            zoom: 8,
+            zoom: 7,
             zoomControl: false,
-            layers: [osmLayer, layer1, layer2,],
+            layers: [GoogleSatelite, layer1, layer2,PROV],
         });
 
         //se le agregan los controles//
